@@ -5,12 +5,12 @@
 class Drop{
   float x = random (width);
   float y = random (-200,-100);
-  float yspeed = random (4,10) ;
+  float yspeed = random (1,5) ;
   float len = random (10,20);
   
   void fall(){
     y = y + yspeed;
-    yspeed = yspeed + 0.05;
+    yspeed = yspeed + 0.02;
     
     if (y > height){
       y = random (-200, -100);
@@ -19,8 +19,9 @@ class Drop{
  }
   
   void show(){
+    strokeWeight(4);
+    stroke (167, 186, 254);
     
-    stroke (138,43,226);
     line(x,y,x,y+10);
   }
   
