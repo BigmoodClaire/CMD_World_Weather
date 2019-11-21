@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 Capture cam; 
 OpenCV opencv; 
-Rectangle[] faces;
+Rectangle[] faces = null;
 Drop[] drops = new Drop [500];
 
 int w = 640;
@@ -28,21 +28,27 @@ void setup() {
   opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
 }
 
-void draw() { 
+void checkForFaces(){
+    opencv.loadImage(cam); 
+    faces = opencv.detect(); 
+}
 
-  for (int i = 0; i < drops.length; i++) 
+void rain(){
+    for (int i = 0; i < drops.length; i++) 
   {
     drops[i].fall();
     drops[i].show();
   }
+}
 
+void draw() { 
   if (cam.available())
   {
     cam.read();//delivers image only when new images are available, gets rid of jitter
   }
-
-  opencv.loadImage(cam); 
-  faces = opencv.detect(); 
+if(frameCount % 30 == 0){
+  thread("checkForFaces");
+}
   image(cam, 0, 0); 
 
   if (faces!=null) { 
@@ -53,13 +59,14 @@ void draw() {
       rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
     }
   } 
-  if (faces.length<=0) { 
+  else if (faces==null) { 
     textAlign(CENTER); 
     fill(255, 0, 0); 
     textSize(56); 
     println("no faces");
     text("UNDETECTED", 200, 100);
   }
+ rain();
 }
 
 void captureEvent(Capture cam) { 

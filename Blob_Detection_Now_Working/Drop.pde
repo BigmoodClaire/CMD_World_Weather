@@ -1,7 +1,7 @@
 class Drop // Drop class declared
 {
   float x = random (width);
-  float y = random (-200, -100);
+  float y = random (-500, -100);
   float yspeed = random (1, 5) ;
   float len = random (10, 20);
 
