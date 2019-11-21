@@ -1,4 +1,4 @@
-import gab.opencv.*; 
+import gab.opencv.*;  //library
 import processing.video.*; 
 import java.awt.Rectangle;
 
@@ -14,14 +14,14 @@ int fps = 60;//frame rate on which the camera will display it
 void setup() { 
   size(640, 480); 
   background (0, 0, 0); 
-  
-    // RAIN EFFECT SETUP //
+
+  // RAIN EFFECT SETUP //
   for (int i = 0; i < drops.length; i++) 
   {
     drops[i] = new Drop();
     //img = loadImage("londdon.jpg");
   }
-  
+
   cam = new Capture( this, 640, 480, 30); 
   cam.start(); 
   opencv = new OpenCV(this, cam.width, cam.height); 
@@ -29,18 +29,18 @@ void setup() {
 }
 
 void draw() { 
-  
-   for (int i = 0; i < drops.length; i++) 
+
+  for (int i = 0; i < drops.length; i++) 
   {
     drops[i].fall();
     drops[i].show();
   }
-  
+
   if (cam.available())
   {
     cam.read();//delivers image only when new images are available, gets rid of jitter
   }
-  
+
   opencv.loadImage(cam); 
   faces = opencv.detect(); 
   image(cam, 0, 0); 
