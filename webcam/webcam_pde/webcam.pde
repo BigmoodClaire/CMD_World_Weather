@@ -36,8 +36,6 @@ Drop[] drops = new Drop [500];
 int w = 640;
 int h = 480;
 int fps = 60;//frame rate on which the camera will display it
-boolean isRainClicked;
-
 
 void setup()
 {
@@ -47,57 +45,30 @@ void setup()
      drops[i] = new Drop();
      //img = loadImage("londdon.jpg");
    }
-   
   // WEBCAM SETUP//
   size (640, 480);
   cam = new Capture(this, w, h); //"this" refers to THIS processing sketch
   cam.start();
   // EFFECT SETUP //
   rainImg = loadImage("rain.png");
-  isRainClicked = false;
 }
 
 
-void rainEffect()
-{
-   for (int i = 0; i < drops.length; i++) 
-   {
-     drops[i].fall();
-     drops[i].show();
-   }
-}
-
-void mouseReleased()
-{
-  if(mouseX < rainImg.width && mouseY<rainImg.height)
-  {
-    isRainClicked = true;
-  }
-}
 
 void draw()
 {
-  image(cam, 0, 0);
-  image(rainImg, 0, 0, 100, 100);
   if (cam.available())
   {
     cam.read();//delivers image only when new images are available, gets rid of jitter
   }
-  if (isRainClicked == true)
-  {
-    rainEffect();
-  }
+  image(cam, 0, 0);
+  image(rainImg, 0, 0, 100, 100);
   
-  text("Mouse " + mouseX + ", " + mouseY + " Image dimensions " + rainImg.width + ", " + rainImg.height, 100, 300);
   
    // DISPLAYS RAIN EFFECT //
-  //if(mousePressed)
-  //{
-    //cam.read();
-  //}
-  //for (int i = 0; i < drops.length; i++) 
-  // {
-  //   drops[i].fall();
-  //   drops[i].show();
-  // }
+  for (int i = 0; i < drops.length; i++) 
+   {
+     drops[i].fall();
+     drops[i].show();
+   }
 }
