@@ -78,7 +78,7 @@ void setup()
   scarfButton = loadImage("scarf-button.png");
   umbrellaButton = loadImage("umbrella-button.png");
   
-  isRainClicked = false;
+  isRainClicked = false; //Rain button isnt clicked
 }
 
 
@@ -93,9 +93,9 @@ void rainEffect()
 
 void mouseReleased()
 {
-  if(mouseX < rainButton.width && mouseY<rainButton.height)
+  if(mouseX < rainButton.width && mouseY<rainButton.height) // declares what a click is
   {
-    isRainClicked = true;
+    isRainClicked = !isRainClicked; //sets the button to true
   }
 }
 
@@ -123,9 +123,13 @@ void draw()
     cam.read();//delivers image only when new images are available, gets rid of jitter
     
   }
-  if (isRainClicked == true) //checks whether the rain button is pressed
+  if (isRainClicked == true) //if button is pressed
   {
     rainEffect();
+  }
+  else if (isRainClicked == false)
+  {
+    
   }
 
 }
