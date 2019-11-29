@@ -29,10 +29,14 @@ class Drop // Drop class declared
 
 import processing.video.*;//imports video library
 
-Capture cam; 
-PImage rainImg;
+Capture cam;
+PImage titleButton;
+PImage rainButton;
+PImage snowButton;
+PImage sunButton;
+PImage windButton;
 Drop[] drops = new Drop [500];
-//PImage img; //london image I dont need right now
+
 
 int w = 640;
 int h = 480;
@@ -56,7 +60,11 @@ void setup()
   cam = new Capture(this, w, h); //"this" refers to THIS processing sketch
   cam.start();
   // EFFECT SETUP //
-  rainImg = loadImage("rain.png");
+  titleButton = loadImage("title.png");
+  rainButton = loadImage("rain-button.png");
+  snowButton = loadImage("snow-button.png");
+  sunButton = loadImage("sun-button.png");
+  windButton = loadImage("wind-button.png");
   isRainClicked = false;
 }
 
@@ -72,7 +80,7 @@ void rainEffect()
 
 void mouseReleased()
 {
-  if(mouseX < rainImg.width && mouseY<rainImg.height)
+  if(mouseX < rainButton.width && mouseY<rainButton.height)
   {
     isRainClicked = true;
   }
@@ -80,12 +88,21 @@ void mouseReleased()
 
 void draw()
 {
-  image(cam, 0, 0);
-  image(rainImg, 0, 0, 100, 100);
+   image(cam, 0, 0);
+  pushMatrix();
+  scale(-1,1);
+  image(cam.get(), -width, 0);
+  popMatrix();
+  image(titleButton, 130, 0, 400, 30);
+  image(rainButton, 0, 100, 100, 80);
+  image(snowButton, 0, 200, 100, 80);
+  image(sunButton, 0, 300, 100, 80);
+  image(windButton, 0, 400, 100, 80);
 
   if (cam.available())
   {
     cam.read();//delivers image only when new images are available, gets rid of jitter
+    
   }
   if (isRainClicked == true) //checks whether the rain button is pressed
   {
