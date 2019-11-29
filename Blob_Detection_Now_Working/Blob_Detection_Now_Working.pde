@@ -21,18 +21,23 @@ void setup() {
   {
     drops[i] = new Drop();
   }
-
+  
+  
+//CAMERA AND OPEN CV
   cam = new Capture( this, 640, 480, 30); 
   cam.start(); // start the webcam
   opencv = new OpenCV(this, cam.width, cam.height); 
   opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE); // cascade is an AI that searches for pre defines facial features to declare as FACES
 }
 
+//DETECTION FUNCTION
+
 void checkForFaces() {
   opencv.loadImage(cam); 
   faces = opencv.detect();
 }
 
+//RAIN FUNCTION {CALLING FROM INSIDE CLASS ^}
 void rain() {
   for (int i = 0; i < drops.length; i++) 
   {
@@ -40,6 +45,7 @@ void rain() {
     drops[i].show();
   }
 }
+
 
 void draw() {
 
