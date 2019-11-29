@@ -1,7 +1,7 @@
 class Drop // Drop class declared
 {
   float x = random (width);
-  float y = random (-200, -100);
+  float y = random (-600, -100);
   float yspeed = random (1, 5) ;
   float len = random (10, 20);
 
@@ -87,7 +87,7 @@ void draw()
   {
     cam.read();//delivers image only when new images are available, gets rid of jitter
   }
-  if (isRainClicked == true)
+  if (isRainClicked == true) //checks whether the rain button is pressed
   {
     rainEffect();
   }
