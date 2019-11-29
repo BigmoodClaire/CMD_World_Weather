@@ -35,6 +35,11 @@ PImage rainButton;
 PImage snowButton;
 PImage sunButton;
 PImage windButton;
+
+PImage hatButton;
+PImage sunglassesButton;
+PImage scarfButton;
+PImage umbrellaButton;
 Drop[] drops = new Drop [500];
 
 
@@ -59,12 +64,20 @@ void setup()
   size (640, 480);
   cam = new Capture(this, w, h); //"this" refers to THIS processing sketch
   cam.start();
-  // EFFECT SETUP //
+  
+  // EFFECT BUTTONS SETUP //
   titleButton = loadImage("title.png");
   rainButton = loadImage("rain-button.png");
   snowButton = loadImage("snow-button.png");
   sunButton = loadImage("sun-button.png");
   windButton = loadImage("wind-button.png");
+  
+  // PROPS BUTTONS SETUP //
+  hatButton = loadImage("hat-button.png");
+  sunglassesButton = loadImage("sunglasses-button.png");
+  scarfButton = loadImage("scarf-button.png");
+  umbrellaButton = loadImage("umbrella-button.png");
+  
   isRainClicked = false;
 }
 
@@ -88,16 +101,22 @@ void mouseReleased()
 
 void draw()
 {
-   image(cam, 0, 0);
+  image(cam, 0, 0);
   pushMatrix();
   scale(-1,1);
   image(cam.get(), -width, 0);
   popMatrix();
+  
   image(titleButton, 130, 0, 400, 30);
   image(rainButton, 0, 100, 100, 80);
   image(snowButton, 0, 200, 100, 80);
   image(sunButton, 0, 300, 100, 80);
   image(windButton, 0, 400, 100, 80);
+  
+  image(sunglassesButton, 540, 100, 100, 80);
+  image(umbrellaButton, 540, 200, 100, 80);
+  image(hatButton, 540, 300, 100, 80);
+  image(scarfButton, 540, 400, 100, 80);
 
   if (cam.available())
   {
