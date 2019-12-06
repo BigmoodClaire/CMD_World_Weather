@@ -21,9 +21,9 @@ void setup() {
   {
     drops[i] = new Drop();
   }
-  
-  
-//CAMERA AND OPEN CV
+
+
+  //CAMERA AND OPEN CV
   cam = new Capture( this, 640, 480, 30); 
   cam.start(); // start the webcam
   opencv = new OpenCV(this, cam.width, cam.height); 
