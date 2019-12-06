@@ -59,6 +59,7 @@ class Drop
   }
 }
 
+ // end of class
 
 import processing.video.*;//imports video library
 
@@ -88,7 +89,7 @@ void setup()
 {
   size(640, 480); 
   background (0, 0, 0); 
-  
+
   // RAIN EFFECT SETUP //
    for (int i = 0; i < drops.length; i++) 
    {
@@ -105,6 +106,10 @@ void setup()
   size (640, 480);
   cam = new Capture(this, w, h); //"this" refers to THIS processing sketch
   cam.start();
+  opencv = new OpenCV(this, cam.width, cam.height); 
+  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  rainImg = loadImage("rain.png");
+
   
   // EFFECT BUTTONS SETUP //
   titleButton = loadImage("title.png");
@@ -133,6 +138,15 @@ void snowEffect()
 
 void rainEffect()
 {
+ // DISPLAYS RAIN EFFECT //
+  for (int i = 0; i < drops.length; i++) 
+  {
+    drops[i].fall();
+    drops[i].show();
+  }
+  
+  if (cam.available())
+
    for (int i = 0; i < drops.length; i++) 
    {
      drops[i].fall();
@@ -142,12 +156,17 @@ void rainEffect()
 
 void mouseReleased()
 {
+
   if((mouseX > 0 && mouseX < 100) && (mouseY > 100 && mouseY < 180)) // declares what a click is
   {
     isRainClicked = !isRainClicked;//toggles the boolean
   }
   
   if((mouseX > 0 && mouseX < 100) && (mouseY > 200 && mouseY < 280))  // declares what a click is
+
+  if(mouseX < rainButton.width && mouseY<rainButton.height)
+
+
   {
     isSnowClicked = !isSnowClicked;//toggles the boolean
   }
@@ -172,6 +191,28 @@ void draw()
   image(hatButton, 540, 300, 100, 80);
   image(scarfButton, 540, 400, 100, 80);
 
+
+ 
+  
+  opencv.loadImage(cam); 
+  faces = opencv.detect(); 
+  image(cam, 0, 0); 
+ 
+  if (faces!=null) { 
+    for (int i=0; i< faces.length; i++) { 
+      noFill(); 
+      stroke(255, 255, 0); 
+      strokeWeight(10); 
+      rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
+    }
+  } 
+  if (faces.length<=0) { 
+    textAlign(CENTER); 
+    fill(255, 0, 0); 
+    textSize(56); 
+    println("no faces");
+    text("UNDETECTED", 200, 100);
+
   if (cam.available())
   {
     cam.read();//delivers image only when new images are available, gets rid of jitter
@@ -180,7 +221,12 @@ void draw()
   
   if (isRainClicked == true) //if button is pressed
   {
+
   rainEffect();
+
+    rainEffect();
+
+
   }
   
   if (isSnowClicked == true)
