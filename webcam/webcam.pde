@@ -59,10 +59,15 @@ class Drop
   }
 }
 
-
+import gab.opencv.*;  //library for computer vision
+import java.awt.Rectangle; // the area of space inclosed inside the rectangle
 import processing.video.*;//imports video library
 
 Capture cam;
+OpenCV opencv;
+Rectangle[] faces = null;
+
+// UI BUTTONS
 PImage titleButton;
 PImage rainButton;
 PImage snowButton;
@@ -73,8 +78,17 @@ PImage hatButton;
 PImage sunglassesButton;
 PImage scarfButton;
 PImage umbrellaButton;
+
+// WEATHER INSTANCES DECLARED
 Drop[] drops = new Drop [500];
 Snow[] snowdrops = new Snow [500];
+
+//PROPS 
+PImage glassesProp;
+
+//SUN EFFECT
+PImage sun;
+float x,y,r;
 
 
 int w = 640;
@@ -82,12 +96,13 @@ int h = 480;
 int fps = 60;
 boolean isRainClicked = false;
 boolean isSnowClicked = false;
+boolean glassesPropClicked = false;
 
 
 void setup()
 {
   size(640, 480); 
-  background (0, 0, 0); 
+  background (0, 0, 0);
   
   // RAIN EFFECT SETUP //
    for (int i = 0; i < drops.length; i++) 
@@ -102,10 +117,16 @@ void setup()
    }
 
   // WEBCAM SETUP//
-  size (640, 480);
-  cam = new Capture(this, w, h); //"this" refers to THIS processing sketch
+  //size (640, 480);
+  cam = new Capture(this, w, h, 30); //"this" refers to THIS processing sketch
   cam.start();
   
+  //OPEN CV SETUP
+  opencv = new OpenCV(this, cam.width, cam.height); 
+  opencv.loadCascade(OpenCV.CASCADE_FRONTALFACE);
+  
+  
+
   // EFFECT BUTTONS SETUP //
   titleButton = loadImage("title.png");
   rainButton = loadImage("rain-button.png");
@@ -120,6 +141,11 @@ void setup()
   umbrellaButton = loadImage("umbrella-button.png");
   
  
+}
+
+void checkForFaces() {
+  opencv.loadImage(cam); 
+  faces = opencv.detect();
 }
 
 void snowEffect()
@@ -142,12 +168,16 @@ void rainEffect()
 
 void mouseReleased()
 {
-  if((mouseX > 0 && mouseX < 100) && (mouseY > 100 && mouseY < 180)) // declares what a click is
+  if((mouseX > 540 && mouseX < 640) && (mouseY > 100 && mouseY < 180)) // declares what a click on rain button is
+  {
+    glassesPropClicked = !glassesPropClicked;//toggles the boolean
+  }
+  if((mouseX > 0 && mouseX < 100) && (mouseY > 100 && mouseY < 180)) // declares what a click on rain button is
   {
     isRainClicked = !isRainClicked;//toggles the boolean
   }
   
-  if((mouseX > 0 && mouseX < 100) && (mouseY > 200 && mouseY < 280))  // declares what a click is
+  if((mouseX > 0 && mouseX < 100) && (mouseY > 200 && mouseY < 280))  // declares what a click on snow button is
   {
     isSnowClicked = !isSnowClicked;//toggles the boolean
   }
@@ -155,6 +185,8 @@ void mouseReleased()
 
 void draw()
 {
+ 
+  
   image(cam, 0, 0);
   pushMatrix();
   scale(-1,1);
@@ -172,22 +204,48 @@ void draw()
   image(hatButton, 540, 300, 100, 80);
   image(scarfButton, 540, 400, 100, 80);
 
+
   if (cam.available())
   {
     cam.read();//delivers image only when new images are available, gets rid of jitter
     
   }
+ 
+  if (frameCount % 30 == 0) 
+  { // when framecount is equal to 30 return it to zero, this allows the frames to not jitter or lag
+    thread("checkForFaces"); // allows the cpu to run several tasks at once.
+  }
+  //image(cam, 0, 0);
+  
+  if ((faces!=null) && (glassesPropClicked == true)) 
+  { // if faces is not equal to none and the glasses button was clicked
+    for (int i=0; i< faces.length; i++) 
+    { 
+      glassesProp = loadImage("Glasses.png");
+      image(glassesProp, faces[i].x, faces[i].y, faces[i].width, faces[i].height/2);
+    }
+  } 
+  else if ((faces==null) && (glassesPropClicked == true))
+  { // if faces IS equal to none
+    textAlign(CENTER); 
+    fill(255, 0, 0); 
+    textSize(56); 
+    println("no faces");
+    text("UNDETECTED", 200, 100);
+  }
   
   if (isRainClicked == true) //if button is pressed
   {
-  rainEffect();
+    rainEffect();
   }
   
   if (isSnowClicked == true)
   {
     snowEffect();
   }
-    
-   
-
 }
+
+ void captureEvent(Capture cam)
+   {
+     cam.read();
+   }
