@@ -86,6 +86,7 @@ Snow[] snowdrops = new Snow [500];
 //PROPS 
 PImage glassesProp;
 PImage hatProp;
+PImage scarfProp;
 
 //SUN EFFECT
 PImage sun;
@@ -99,6 +100,7 @@ boolean isRainClicked = false;
 boolean isSnowClicked = false;
 boolean glassesPropClicked = false;
 boolean hatPropClicked = false;
+boolean scarfPropClicked = false;
 
 
 void setup()
@@ -170,11 +172,15 @@ void rainEffect()
 
 void mouseReleased()
 {
-  if((mouseX > 540 && mouseX < 640) && (mouseY > 300 && mouseY < 380)) // declares what a click on rain button is
+  if((mouseX > 540 && mouseX < 640) && (mouseY > 400 && mouseY < 480)) // declares what a click on scarf button is
+  {
+    scarfPropClicked = !scarfPropClicked;//toggles the boolean
+  }
+  if((mouseX > 540 && mouseX < 640) && (mouseY > 300 && mouseY < 380)) // declares what a click on hat button is
   {
     hatPropClicked = !hatPropClicked;//toggles the boolean
   }
-  if((mouseX > 540 && mouseX < 640) && (mouseY > 100 && mouseY < 180)) // declares what a click on rain button is
+  if((mouseX > 540 && mouseX < 640) && (mouseY > 100 && mouseY < 180)) // declares what a click on glasses button is
   {
     glassesPropClicked = !glassesPropClicked;//toggles the boolean
   }
@@ -239,7 +245,14 @@ void draw()
       hatProp = loadImage("hat.png");
       image(hatProp, faces[i].x, faces[i].y-150, faces[i].width, faces[i].height);
     }
-   
+  }
+  else if ((faces!=null) && (scarfPropClicked == true)) 
+  { // if faces is not equal to none and the glasses button was clicked
+    for (int i=0; i< faces.length; i++) 
+    { 
+      scarfProp = loadImage("scarf.png");
+      image(scarfProp, faces[i].x, faces[i].y+200, faces[i].width, faces[i].height);
+    }
   }
   //else if ((faces==null) && (glassesPropClicked == true))
   //{ // if faces IS equal to none
