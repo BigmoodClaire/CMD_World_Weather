@@ -85,6 +85,7 @@ Snow[] snowdrops = new Snow [500];
 
 //PROPS 
 PImage glassesProp;
+PImage hatProp;
 
 //SUN EFFECT
 PImage sun;
@@ -97,6 +98,7 @@ int fps = 60;
 boolean isRainClicked = false;
 boolean isSnowClicked = false;
 boolean glassesPropClicked = false;
+boolean hatPropClicked = false;
 
 
 void setup()
@@ -168,6 +170,10 @@ void rainEffect()
 
 void mouseReleased()
 {
+  if((mouseX > 540 && mouseX < 640) && (mouseY > 300 && mouseY < 380)) // declares what a click on rain button is
+  {
+    hatPropClicked = !hatPropClicked;//toggles the boolean
+  }
   if((mouseX > 540 && mouseX < 640) && (mouseY > 100 && mouseY < 180)) // declares what a click on rain button is
   {
     glassesPropClicked = !glassesPropClicked;//toggles the boolean
@@ -224,15 +230,25 @@ void draw()
       glassesProp = loadImage("Glasses.png");
       image(glassesProp, faces[i].x, faces[i].y, faces[i].width, faces[i].height/2);
     }
-  } 
-  else if ((faces==null) && (glassesPropClicked == true))
-  { // if faces IS equal to none
-    textAlign(CENTER); 
-    fill(255, 0, 0); 
-    textSize(56); 
-    println("no faces");
-    text("UNDETECTED", 200, 100);
+    
   }
+  else if ((faces!=null) && (hatPropClicked == true)) 
+  { // if faces is not equal to none and the glasses button was clicked
+    for (int i=0; i< faces.length; i++) 
+    { 
+      hatProp = loadImage("hat.png");
+      image(hatProp, faces[i].x, faces[i].y-150, faces[i].width, faces[i].height);
+    }
+   
+  }
+  //else if ((faces==null) && (glassesPropClicked == true))
+  //{ // if faces IS equal to none
+  //  textAlign(CENTER); 
+  //  fill(255, 0, 0); 
+  //  textSize(56); 
+  //  println("no faces");
+  //  text("UNDETECTED", 200, 100);
+  //}
   
   if (isRainClicked == true) //if button is pressed
   {
