@@ -87,6 +87,7 @@ Snow[] snowdrops = new Snow [500];
 PImage glassesProp;
 PImage hatProp;
 PImage scarfProp;
+PImage umbrellaProp;
 
 //SUN EFFECT
 PImage sun;
@@ -101,6 +102,7 @@ boolean isSnowClicked = false;
 boolean glassesPropClicked = false;
 boolean hatPropClicked = false;
 boolean scarfPropClicked = false;
+boolean umbrellaPropClicked = false;
 
 
 void setup()
@@ -172,24 +174,29 @@ void rainEffect()
 
 void mouseReleased()
 {
+  
   if((mouseX > 540 && mouseX < 640) && (mouseY > 400 && mouseY < 480)) // declares what a click on scarf button is
   {
     scarfPropClicked = !scarfPropClicked;//toggles the boolean
   }
-  if((mouseX > 540 && mouseX < 640) && (mouseY > 300 && mouseY < 380)) // declares what a click on hat button is
+  else if((mouseX > 540 && mouseX < 640) && (mouseY > 300 && mouseY < 380)) // declares what a click on hat button is
   {
     hatPropClicked = !hatPropClicked;//toggles the boolean
   }
-  if((mouseX > 540 && mouseX < 640) && (mouseY > 100 && mouseY < 180)) // declares what a click on glasses button is
+  else if((mouseX > 540 && mouseX < 640) && (mouseY > 200 && mouseY < 280)) // declares what a click on umbrella button is
+  {
+    umbrellaPropClicked = !umbrellaPropClicked;//toggles the boolean
+  }
+  else if((mouseX > 540 && mouseX < 640) && (mouseY > 100 && mouseY < 180)) // declares what a click on glasses button is
   {
     glassesPropClicked = !glassesPropClicked;//toggles the boolean
   }
-  if((mouseX > 0 && mouseX < 100) && (mouseY > 100 && mouseY < 180)) // declares what a click on rain button is
+  else if((mouseX > 0 && mouseX < 100) && (mouseY > 100 && mouseY < 180)) // declares what a click on rain button is
   {
     isRainClicked = !isRainClicked;//toggles the boolean
   }
   
-  if((mouseX > 0 && mouseX < 100) && (mouseY > 200 && mouseY < 280))  // declares what a click on snow button is
+  else if((mouseX > 0 && mouseX < 100) && (mouseY > 200 && mouseY < 280))  // declares what a click on snow button is
   {
     isSnowClicked = !isSnowClicked;//toggles the boolean
   }
@@ -236,14 +243,13 @@ void draw()
       glassesProp = loadImage("Glasses.png");
       image(glassesProp, faces[i].x, faces[i].y, faces[i].width, faces[i].height/2);
     }
-    
   }
   else if ((faces!=null) && (hatPropClicked == true)) 
   { // if faces is not equal to none and the glasses button was clicked
     for (int i=0; i< faces.length; i++) 
     { 
       hatProp = loadImage("hat.png");
-      image(hatProp, faces[i].x, faces[i].y-150, faces[i].width, faces[i].height);
+      image(hatProp, faces[i].x, faces[i].y-180, faces[i].width, faces[i].height);
     }
   }
   else if ((faces!=null) && (scarfPropClicked == true)) 
@@ -252,6 +258,14 @@ void draw()
     { 
       scarfProp = loadImage("scarf.png");
       image(scarfProp, faces[i].x, faces[i].y+200, faces[i].width, faces[i].height);
+    }
+  }
+   else if ((faces!=null) && (umbrellaPropClicked == true)) 
+  { // if faces is not equal to none and the glasses button was clicked
+    for (int i=0; i< faces.length; i++) 
+    { 
+      umbrellaProp = loadImage("umbrella.png");
+      image(umbrellaProp, faces[i].x, faces[i].y-150, faces[i].width*2, faces[i].height*2);
     }
   }
   //else if ((faces==null) && (glassesPropClicked == true))
